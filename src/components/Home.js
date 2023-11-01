@@ -8,7 +8,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { analytics, app } from "../firebase";
+import { app } from "../firebase";
 import "./css/Home.css";
 import img from "../img/Floydfeske.png";
 
@@ -79,13 +79,13 @@ function Home() {
   }, []);
 
   // Log an event when the Home component mounts
-  useEffect(() => {
+/*   useEffect(() => {
     analytics.logEvent('page_view', {
       page_title: 'Home',
       page_location: window.location.href,
       page_path: window.location.pathname,
     });
-  }, []);
+  }, []); */
 
   const renderIframe = () => {
     const embedUrl = convertYouTubeUrl(featuredSong.url);
