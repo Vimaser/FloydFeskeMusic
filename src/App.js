@@ -1,25 +1,68 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import "./App.css";
+import {
+  Home,
+  Header,
+  About,
+  Music,
+  Gallery,
+  Contact,
+  Admin,
+  Login,
+  Events,
+  Footer,
+} from "./components";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-function App() {
+const AppContent = () => {
+  const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/music" element={<Music />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/admin"
+          element={
+            isAuthenticated ? <Admin /> : <Navigate to="/login" replace />
+          }
+        />
+      </Routes>
+      {location.pathname !== "/admin" && <Footer />}
+    </>
   );
-}
+};
+
+const App = () => {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+};
 
 export default App;

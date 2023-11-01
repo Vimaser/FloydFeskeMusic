@@ -1,0 +1,43 @@
+/* Events.css */
+
+/* Styles for the outer container with class events-background */
+.events-background {
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  /* Styles for the section containing the heading */
+  .events-background h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Styles for each event article */
+  .events-background article {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  
+  /* Styles for the event title within each article */
+  .events-background article h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for the event date paragraph within each article */
+  .events-background article p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for the "No upcoming events" message */
+  .events-background p {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

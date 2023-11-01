@@ -1,0 +1,50 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  p {
+    font-size: 1.2em;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  section {
+    margin-top: 50px;
+  }
+  
+  h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  iframe {
+    max-width: 100%;
+    border: none;
+  }
+  
+  .mt-5 {
+    margin-top: 3rem !important;
+  }
+  
+  .image-section {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px; /* Optional: for rounded corners */
+  }
