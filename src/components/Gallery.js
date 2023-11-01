@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase";
-import LazyLoad from 'react-lazyload';
+/* import LazyLoad from 'react-lazyload'; */
 import "./css/Gallery.css";
 
 const Gallery = () => {
@@ -96,13 +96,11 @@ const Gallery = () => {
             setSelectedImage(image);
             setIsModalOpen(true);
           }}>
-            <LazyLoad height={200} offset={100}>
-              <img
-                src={image.url}
-                alt={image.title || `Gallery item ${index + 1}`}
-                loading="lazy"
-              />
-            </LazyLoad>
+            <img
+              src={image.url}
+              alt={image.title || `Gallery item ${index + 1}`}
+              loading="lazy"
+            />
             {image.title && <figcaption>{image.title}</figcaption>}
           </figure>
         ))}
