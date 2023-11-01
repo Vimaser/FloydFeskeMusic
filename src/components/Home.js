@@ -8,7 +8,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { app } from "../firebase";
+import { analytics, app } from "../firebase";
 import "./css/Home.css";
 import img from "../img/Floydfeske.png";
 
@@ -23,7 +23,7 @@ function Home() {
 
   const convertYouTubeUrl = (url) => {
     const regExp =
-      /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      /^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
     const match = url.match(regExp);
     if (match && match[2].length === 11) {
       return `https://www.youtube.com/embed/${match[2]}?rel=0`;
@@ -78,6 +78,15 @@ function Home() {
     fetchLatestNews();
   }, []);
 
+  // Log an event when the Home component mounts
+  useEffect(() => {
+    analytics.logEvent('page_view', {
+      page_title: 'Home',
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  }, []);
+
   const renderIframe = () => {
     const embedUrl = convertYouTubeUrl(featuredSong.url);
     if (!embedUrl) {
@@ -110,7 +119,7 @@ function Home() {
     <div className="container mt-5">
       <h1>Welcome to Floyd Feske's Official Website</h1>
       <section className="image-section">
-        <img src={img} alt="Description of the image" />
+        <img src={img} alt="Floyd Feske" />
         <p>Explore the musical journey of Floyd Feske</p>
       </section>
       <p>Dive into the world of Floyd Feske and explore his musical journey.</p>
