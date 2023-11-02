@@ -31,7 +31,7 @@ const Contact = () => {
       <section className="contact-info">
         <h1>Contact Info</h1>
         <p>If you have any questions or need further information, feel free to contact Floyd directly. He is always open to discussing music, collaborations, and other opportunities.</p>
-        <h2>Email: <a href="mailto:ffeske@gmail.com">ffeske@gmail.com</a></h2>
+        <h2>Email: <a href="mailto:floydfeskemusic@gmail.com">floydfeskemusic@gmail.com</a></h2>
       </section>
   
       <section className="contact-form">

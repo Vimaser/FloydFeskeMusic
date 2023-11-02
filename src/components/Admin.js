@@ -22,7 +22,7 @@ import "./css/Admin.css";
 const Admin = () => {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState('');
+  const [eventTime, setEventTime] = useState("");
   const [location, setLocation] = useState("");
   const [events, setEvents] = useState([]);
   const [image, setImage] = useState(null);
@@ -138,37 +138,14 @@ const Admin = () => {
     fetchGalleryAndMusic();
   }, []);
 
-/*   const handleAddEvent = async () => {
-    try {
-      const db = getFirestore(app);
-      const eventsCollection = collection(db, "Events");
-      await addDoc(eventsCollection, {
-        eventName,
-        eventDate: new Date(eventDate),
-        location,
-        eventTime,
-      });
-
-      setEventName("");
-      setEventDate("");
-      setLocation("");
-      setEventTime("");
-
-      fetchEvents();
-    } catch (error) {
-      console.error("Error adding event: ", error);
-    }
-  };
- */
-
   const handleAddEvent = async () => {
     try {
       const db = getFirestore(app);
       const eventsCollection = collection(db, "Events");
-  
+
       // Construct a date object using the eventDate and set the time to the middle of the day.
-      const dateWithCorrectTimeZone = new Date(eventDate + 'T12:00:00');
-  
+      const dateWithCorrectTimeZone = new Date(eventDate + "T12:00:00");
+
       await addDoc(eventsCollection, {
         eventName,
         // Save the date with the correct time zone.
@@ -176,21 +153,20 @@ const Admin = () => {
         location,
         eventTime,
       });
-  
+
       // Reset form fields
       setEventName("");
       setEventDate("");
       setLocation("");
       setEventTime("");
-  
+
       // Fetch events again to update the list
       fetchEvents();
     } catch (error) {
       console.error("Error adding event: ", error);
     }
   };
-  
-  
+
   const handleDeleteEvent = async (id) => {
     try {
       const db = getFirestore(app);
@@ -357,6 +333,18 @@ const Admin = () => {
       console.error("Error deleting news item: ", error);
     }
   };
+
+  function toStandardTime(militaryTime) {
+    if (!militaryTime) {
+      return "Time not set";
+    }
+
+    const [hours, minutes] = militaryTime.split(":");
+    const hoursInt = parseInt(hours, 10);
+    const suffix = hoursInt >= 12 ? "PM" : "AM";
+    const standardHours = ((hoursInt + 11) % 12) + 1;
+    return `${standardHours.toString().padStart(2, "0")}:${minutes} ${suffix}`;
+  }
 
   return (
     <div className="admin-container">
@@ -532,7 +520,12 @@ const Admin = () => {
         {events.map((event) => (
           <div key={event.id}>
             <h3>{event.eventName}</h3>
-            <p>{new Date(event.eventDate).toLocaleDateString()} {new Date(event.eventDate).toLocaleTimeString()}</p>
+            <p>{event.eventDate.toDate().toLocaleDateString()}</p>
+            <p>
+              {event.eventTime
+                ? toStandardTime(event.eventTime)
+                : "Time not set"}
+            </p>
             <p>{event.location}</p>
             <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
           </div>
