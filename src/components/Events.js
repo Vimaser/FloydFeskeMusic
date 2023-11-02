@@ -6,6 +6,20 @@ import "./css/Events.css";
 const Events = () => {
   const [events, setEvents] = useState([]);
 
+  function toStandardTime(militaryTime) {
+    if (!militaryTime) {
+      return "Time not set";
+    }
+  
+    const [hours, minutes] = militaryTime.split(':');
+    const hoursInt = parseInt(hours, 10);
+    const suffix = hoursInt >= 12 ? "PM" : "AM";
+    const standardHours = ((hoursInt + 11) % 12 + 1);
+    return `${standardHours.toString().padStart(2, '0')}:${minutes} ${suffix}`;
+  }
+  
+  
+
   useEffect(() => {
     const fetchEvents = async () => {
       const db = getFirestore(app);
@@ -36,6 +50,7 @@ const Events = () => {
             <article key={event.id}>
               <h2>{event.eventName}</h2>
               <p>{event.eventDate.toDate().toLocaleDateString()}</p>
+              <p>{event.eventTime ? toStandardTime(event.eventTime) : 'Time not set'}</p>
               <p>{event.location}</p>
             </article>
           ))

@@ -22,6 +22,7 @@ import "./css/Admin.css";
 const Admin = () => {
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState('');
   const [location, setLocation] = useState("");
   const [events, setEvents] = useState([]);
   const [image, setImage] = useState(null);
@@ -145,11 +146,13 @@ const Admin = () => {
         eventName,
         eventDate: new Date(eventDate),
         location,
+        eventTime,
       });
 
       setEventName("");
       setEventDate("");
       setLocation("");
+      setEventTime("");
 
       fetchEvents();
     } catch (error) {
@@ -473,6 +476,16 @@ const Admin = () => {
           </div>
           <div>
             <label>
+              Event Time: {/* Added input for event time */}
+              <input
+                type="time"
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
               Location:
               <input
                 type="text"
@@ -488,7 +501,7 @@ const Admin = () => {
         {events.map((event) => (
           <div key={event.id}>
             <h3>{event.eventName}</h3>
-            <p>{event.eventDate.toDate().toLocaleDateString()}</p>
+            <p>{new Date(event.eventDate).toLocaleDateString()} {new Date(event.eventDate).toLocaleTimeString()}</p>
             <p>{event.location}</p>
             <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
           </div>
