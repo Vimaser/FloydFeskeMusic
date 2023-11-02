@@ -42,14 +42,14 @@ const Footer = () => {
           >
             YouTube
           </a>
-          <a
+          {/* <a
             className="social-link"
             href="https://www.tiktok.com/@theaaronjustice?_t=8gGlSMm2vyF&_r=1&fbclid=IwAR1HVTO_FuCRbKqnZqWcQSpvjf7zpMvcXpf_sNUTmrfMXkkpTeCxj7735Ww"
             target="_blank"
             rel="noopener noreferrer"
           >
             TikTok
-          </a>
+          </a> */}
           <Link to="/Admin" className="social-link">
             AdminPortal
           </Link>
