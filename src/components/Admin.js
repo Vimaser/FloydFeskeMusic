@@ -138,7 +138,7 @@ const Admin = () => {
     fetchGalleryAndMusic();
   }, []);
 
-  const handleAddEvent = async () => {
+/*   const handleAddEvent = async () => {
     try {
       const db = getFirestore(app);
       const eventsCollection = collection(db, "Events");
@@ -159,7 +159,38 @@ const Admin = () => {
       console.error("Error adding event: ", error);
     }
   };
+ */
 
+  const handleAddEvent = async () => {
+    try {
+      const db = getFirestore(app);
+      const eventsCollection = collection(db, "Events");
+  
+      // Construct a date object using the eventDate and set the time to the middle of the day.
+      const dateWithCorrectTimeZone = new Date(eventDate + 'T12:00:00');
+  
+      await addDoc(eventsCollection, {
+        eventName,
+        // Save the date with the correct time zone.
+        eventDate: dateWithCorrectTimeZone,
+        location,
+        eventTime,
+      });
+  
+      // Reset form fields
+      setEventName("");
+      setEventDate("");
+      setLocation("");
+      setEventTime("");
+  
+      // Fetch events again to update the list
+      fetchEvents();
+    } catch (error) {
+      console.error("Error adding event: ", error);
+    }
+  };
+  
+  
   const handleDeleteEvent = async (id) => {
     try {
       const db = getFirestore(app);
