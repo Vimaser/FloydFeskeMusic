@@ -18,6 +18,7 @@ const Contact = () => {
       email,
       message,
       timestamp: new Date(),
+      isNew: true
     });
 
     // Reset form fields

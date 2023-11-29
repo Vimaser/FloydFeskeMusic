@@ -8,6 +8,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -74,6 +75,22 @@ const Admin = () => {
       console.error("Error deleting document: ", error);
     }
   };
+
+  const handleOpenMessages = async () => {
+    // Loop through each message and update its isNew field to false
+    for (const message of messages) {
+      const messageRef = doc(db, "Messages", message.id);
+      try {
+        await updateDoc(messageRef, {
+          isNew: false
+        });
+      } catch (error) {
+        console.error("Error updating message: ", error);
+      }
+    }
+  };
+  
+  
 
   const handleMusicUpload = async () => {
     try {
@@ -312,6 +329,21 @@ const Admin = () => {
   };
 
   useEffect(() => {
+    const messagesCollection = collection(db, "Messages");
+
+    const unsubscribe = onSnapshot(messagesCollection, (snapshot) => {
+      const newMessages = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+      })).filter(message => message.isNew);
+
+      setMessages(newMessages);
+    });
+
+    return () => unsubscribe(); // Clean up the listener
+  }, []);
+
+  useEffect(() => {
     const fetchNewsItems = async () => {
       const newsRef = collection(db, "news");
       const newsSnapshot = await getDocs(newsRef);
@@ -324,6 +356,7 @@ const Admin = () => {
 
     fetchNewsItems();
   }, [db]);
+  
 
   const deleteNewsItem = async (newsId) => {
     try {
@@ -569,25 +602,27 @@ const Admin = () => {
         </div>
       </section>
 
-      {/* Message Form */}
-      <section className="section">
-        <div>
-          <section>
-            <h2>Messages</h2>
-            {messages.map((message) => (
-              <div key={message.id}>
-                <p>Name: {message.name}</p>
-                <p>Email: {message.email}</p>
-                <p>Message: {message.message}</p>
-                <p>Date: {message.timestamp?.toDate().toLocaleString()}</p>
-                <button onClick={() => handleDeleteMessage(message.id)}>
-                  Delete Message
-                </button>
-              </div>
-            ))}
-          </section>
+{/* Message Form */}
+<section className="section">
+  <div>
+    <section>
+      <h2>Messages</h2>
+      <button onClick={handleOpenMessages}>Delete All Messages</button> {/* Button to view messages */}
+      {messages.map((message) => (
+        <div key={message.id}>
+          <p>Name: {message.name}</p>
+          <p>Email: {message.email}</p>
+          <p>Message: {message.message}</p>
+          <p>Date: {message.timestamp?.toDate().toLocaleString()}</p>
+          <button onClick={() => handleDeleteMessage(message.id)}>
+            Delete Message
+          </button>
         </div>
-      </section>
+      ))}
+    </section>
+  </div>
+</section>
+
 
       {/* Music Form */}
       <section className="section">
